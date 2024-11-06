@@ -19,6 +19,9 @@ import (
 //
 var Emails = make([]Threadable, 0, 3000)
 
+// ls -1 test/testdata/ham | wc -l
+const MessageNumber = 2405
+
 // TestMain sets up everything for the other test(s). It essentially parses a largish set of publicly available
 // Emails in to a structure that can then be used to perform email threading testing. To perform the parsing, we
 // use the enmime package at https://github.com/jhillyerd/enmime
@@ -367,12 +370,12 @@ func ExampleThreader_ThreadSlice() {
 	//
 	var nc int
 	Count(sliceRoot, &nc)
-	if nc != 2387 {
-		fmt.Printf("expected %d emails after threading, but got %d back", 2387, nc)
+	if nc != MessageNumber {
+		fmt.Printf("expected %d emails after threading, but got %d back", MessageNumber, nc)
 	} else {
 		fmt.Printf("There are %d test emails", nc)
 	}
-	// Output: There are 2387 test emails
+	// Output: There are 2405 test emails
 }
 
 func TestThreader_ThreadSlice(t1 *testing.T) {
@@ -392,8 +395,8 @@ func TestThreader_ThreadSlice(t1 *testing.T) {
 	//
 	var nc int
 	Count(sliceRoot, &nc)
-	if nc != 2387 {
-		t1.Errorf("expected %d emails after threading, but got %d back", 2387, nc)
+	if nc != MessageNumber {
+		t1.Errorf("expected %d emails after threading, but got %d back", MessageNumber, nc)
 	}
 }
 
@@ -417,12 +420,12 @@ func ExampleThreader_ThreadRoot() {
 	//
 	var nc int
 	Count(treeRoot, &nc)
-	if nc != 2387 {
-		fmt.Printf("expected %d emails afer threading, but got %d back", 2387, nc)
+	if nc != MessageNumber {
+		fmt.Printf("expected %d emails afer threading, but got %d back", MessageNumber, nc)
 	} else {
 		fmt.Printf("There are %d test emails", nc)
 	}
-	// Output: There are 2387 test emails
+	// Output: There are 2405 test emails
 }
 
 func TestThreader_ThreadRoot(t1 *testing.T) {
@@ -445,7 +448,7 @@ func TestThreader_ThreadRoot(t1 *testing.T) {
 	//
 	var nc int
 	Count(treeRoot, &nc)
-	if nc != 2387 {
-		t1.Errorf("expected %d emails after threading, but got %d back", 2387, nc)
+	if nc != MessageNumber {
+		t1.Errorf("expected %d emails after threading, but got %d back", MessageNumber, nc)
 	}
 }

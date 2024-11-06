@@ -27,7 +27,7 @@ type threadContainer struct {
 	//
 	child *threadContainer
 
-	// child shows which threadable is the child of this container
+	// next shows which threadable is the sibling of this container
 	//
 	next *threadContainer
 
@@ -85,17 +85,14 @@ func (tc *threadContainer) flush() error {
 	return nil
 }
 
-// findChild returns true if child is under self's tree.  This is used for detecting circularities in the references header.
-//
+// findChild returns true if child is under self's tree. This is used for
+// detecting circularities in the references header.
 func (tc *threadContainer) findChild(target *threadContainer) bool {
-
-	if tc.child == nil {
-		return false
-	} else if tc.child == target {
-		return true
-	} else {
-		return tc.child.findChild(target)
+	found := false
+	for t := tc.child; t != nil; t = t.next {
+		found = found || t == target || t.findChild(target)
 	}
+	return found
 }
 
 // reverseChildren does what it implies and reverses the order of the child elements
